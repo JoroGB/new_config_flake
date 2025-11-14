@@ -1,8 +1,14 @@
 {
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  description = "NixOS configuration with DankMaterialShell";
 
-    # Dependencias de DMS
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dgop = {
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,53 +26,27 @@
       inputs.dms-cli.follows = "dms-cli";
     };
 
-    # Home-manager
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Niri (compositor)
     niri = {
-      url = "github:YaLTeR/niri";
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = {
-    nixpkgs, home-manager, dankMaterialShell, niri, ...
-  }:
-  {
-    nixosConfigurations.nixos_pc = nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, home-manager, niri, dankMaterialShell, ... }@inputs: {
+    nixosConfigurations.pc_dank = nixpkgs.lib.nixosSystem {  # ← Cambia "tu-hostname" por el nombre de tu PC
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         ./config/configuration.nix
+        ./config/hardware-configuration.nix
 
-        # Home-manager como módulo
+        # Integración de Home Manager
         home-manager.nixosModules.home-manager
-
-        # Config del usuario
         {
-          home-manager.users.joronix = {
-            imports = [
-              dankMaterialShell.homeModules.dankMaterialShell.default
-              dankMaterialShell.homeModules.dankMaterialShell.niri
-              niri.homeModules.niri
-            ];
-
-            # ---- DankMaterialShell ----
-            programs.dankMaterialShell = {
-              enable = true;
-
-              niri = {
-                enableKeybinds = true;
-                enableSpawn = true;
-              };
-            };
-
-            # ---- Niri compositor ----
-            programs.niri.enable = true;
-          };
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };  # ← Esto pasa inputs a home.nix
+          home-manager.users.joronix = import ./home.nix;
         }
       ];
     };
