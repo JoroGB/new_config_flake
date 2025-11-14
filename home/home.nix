@@ -1,11 +1,11 @@
-{ config, pkgs, inputs... }:
+{ config, pkgs, inputs, ... }:
 {
   home.username = "joronix";
   home.homeDirectory = "/home/joronix";
   home.stateVersion = "25.05";
 
   imports = [
-    inputs.niri.homeModules.niri
+    # inputs.niri.homeModules.niri
     inputs.dankMaterialShell.homeModules.dankMaterialShell.default
     inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
   ];
@@ -29,14 +29,14 @@
     enableSystemSound = true;          # System sound effects
   };
 
-  default.settings = {
-      theme = "dark";
-      dynamicTheming = true;
-      # Add any other settings here
-    };
+  # default.settings = {
+  #     theme = "dark";
+  #     dynamicTheming = true;
+  #     # Add any other settings here
+  #   };
 
-    default.session = {
-      # Session state defaults
-    };
+  #   default.session = {
+  #     # Session state defaults
+  #   };
 
 }

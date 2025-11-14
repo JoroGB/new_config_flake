@@ -5,8 +5,11 @@
     inputs.niri.nixosModules.niri  # ← Importar módulo de niri
   ];
 
-  nixpkgs.overlays = [
-    (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
+  # nixpkgs.overlays = [
+  #   (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
+  # ];
+    nixpkgs.overlays = [
+    inputs.fenix.overlays.default
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -28,7 +31,7 @@
   # Configuración de Niri
   programs.niri = {
     enable = true;
-    package = pkgs.niri-unstable;  # O pkgs.niri-stable
+    # package = pkgs.niri-unstable;  # O pkgs.niri-stable
   };
 
   # Habilitar Wayland y sesión de login
