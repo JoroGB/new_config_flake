@@ -26,19 +26,16 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, niri-flake, ... }@inputs:
-  let
-    overlays = [
-      niri-flake.overlays.niri
-      ];
-  in {
+  outputs = { self, nixpkgs, home-manager, niri-flake, ... }@inputs:{
     nixosConfigurations.pc_niri = nixpkgs.lib.nixosSystem {  # ← Cambia "tu-hostname" por el nombre de tu PC
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
+        {
+          nixpkgs.overlays = [ niri-flake.overlays.niri ];
+        }
         ./config/configuration.nix
         ./config/hardware-configuration.nix
-
         {nixpkgs.config.allowUnfree = true;}
         # Integración de Home Manager
         home-manager.nixosModules.home-manager

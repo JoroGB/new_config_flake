@@ -28,13 +28,13 @@
   };
 
   # Configuración de Niri
-  # programs.niri = {
-    # enable = true;
+  programs.niri = {
+    enable = true;
     # Sobrescribir el paquete para deshabilitar tests
     # package = inputs.niri.packages.${pkgs.system}.niri-stable.overrideAttrs (oldAttrs: {
       # doCheck = false;  # ← Deshabilitar tests que fallan
     # });
-  # };
+  };
 
   # Habilitar Wayland y sesión de login
   services.xserver.enable = true;  # Necesario para display manager
@@ -47,19 +47,30 @@
       portal = {
         enable = true;
 
+        # Portales correctos para Niri
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-gnome  # ← Principal para Niri
+          xdg-desktop-portal-gtk    # ← Fallback
+        ];
+
+        # Configuración para Niri
         config = {
-          sway = {
-            default = [ "gtk" ];
-            "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-            "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+          niri = {  # ← Cambiar de  "niri"
+            default = [ "gnome" "gtk" ];
+            "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+            "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+          };
+
+          # Configuración común como fallback
+          common = {
+            default = [ "gnome" "gtk" ];
           };
         };
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-wlr
-          xdg-desktop-portal-gtk
-        ];
       };
     };
+
+    # Servicios necesarios
+    services.dbus.enable = true;
 
 
 
