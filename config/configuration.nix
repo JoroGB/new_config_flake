@@ -2,7 +2,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    inputs.niri.nixosModules.niri  # ← Importar módulo de niri
   ];
 
   # nixpkgs.overlays = [
@@ -31,7 +30,10 @@
   # Configuración de Niri
   programs.niri = {
     enable = true;
-    # package = pkgs.niri-unstable;  # O pkgs.niri-stable
+    # Sobrescribir el paquete para deshabilitar tests
+    package = inputs.niri.packages.${pkgs.system}.niri-stable.overrideAttrs (oldAttrs: {
+      doCheck = false;  # ← Deshabilitar tests que fallan
+    });
   };
 
   # Habilitar Wayland y sesión de login
@@ -47,6 +49,7 @@
     WLR_NO_HARDWARE_CURSORS = "1";  #Fix para cursores en NVIDIA
     GBM_BACKEND = "nvidia-drm";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    NIXPKGS_ALLOW_UNFREE=1;
   };
 
   networking.hostName = "nixos";
@@ -97,7 +100,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     (fenix.complete.withComponents [
@@ -137,6 +140,10 @@
     # Herramientas útiles para Wayland/Niri
     wayland-utils
     xwayland  # Para apps X11 en Wayland
+    alacritty
+    fuzzel
+    mako
+    waybar
   ];
 
   services.openssh.enable = true;
