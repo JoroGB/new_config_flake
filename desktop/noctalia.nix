@@ -56,7 +56,19 @@
           monthBeforeDay = true;
           name = "Marseille, France";
         };
+        dock = {
+          enabled = false;
+          displayMode = "always_visible";
+          backgroundOpacity = 1;
+          floatingRatio = 1;
+          size = 1;
+          onlySameOutput = true;
+          monitors = [ ];
+          pinnedApps = [ ];
+          colorizeIcons = false;
+        };
       };
+
       # this may also be a string or a path to a JSON file,
       # but in this case must include *all* settings.
     };

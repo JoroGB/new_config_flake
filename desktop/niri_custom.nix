@@ -13,7 +13,7 @@
           mode = {
             width = 2560;
             height = 1080;
-            refresh = 99.94;
+            refresh = 99.949;
             };
         };
         "HDMI-A-1"={
@@ -59,11 +59,14 @@
       # Keybindings
       binds = with config.lib.niri.actions; {
         #Multimedia
-        "XF86AudioRaiseVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+";
-        "XF86AudioLowerVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-";
+        "XF86AudioRaiseVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05+";
+        "XF86AudioLowerVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05-";
         # Aplicaciones
         "Mod+T".action = spawn "alacritty";
         "Mod+D".action = spawn "fuzzel";
+
+        #Mostrar hotkeys
+        "Mod+Shift+Slash".action = show-hotkey-overlay;
 
         # Ventanas
         "Mod+Q".action = close-window;
