@@ -28,13 +28,13 @@
   };
 
   # Configuración de Niri
-  programs.niri = {
-    enable = true;
+  # programs.niri = {
+    # enable = true;
     # Sobrescribir el paquete para deshabilitar tests
-    package = inputs.niri.packages.${pkgs.system}.niri-stable.overrideAttrs (oldAttrs: {
-      doCheck = false;  # ← Deshabilitar tests que fallan
-    });
-  };
+    # package = inputs.niri.packages.${pkgs.system}.niri-stable.overrideAttrs (oldAttrs: {
+      # doCheck = false;  # ← Deshabilitar tests que fallan
+    # });
+  # };
 
   # Habilitar Wayland y sesión de login
   services.xserver.enable = true;  # Necesario para display manager
@@ -42,6 +42,26 @@
     enable = true;
     wayland.enable = true;
   };
+
+  xdg = {
+      portal = {
+        enable = true;
+
+        config = {
+          sway = {
+            default = [ "gtk" ];
+            "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+            "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+          };
+        };
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-wlr
+          xdg-desktop-portal-gtk
+        ];
+      };
+    };
+
+
 
   # Variables de entorno para NVIDIA + Wayland
   environment.sessionVariables = {
@@ -51,7 +71,7 @@
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     NIXPKGS_ALLOW_UNFREE=1;
   };
-
+  environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
   networking.hostName = "nixos";
 
   time.timeZone = "America/Costa_Rica";
@@ -143,7 +163,6 @@
     alacritty
     fuzzel
     mako
-    waybar
   ];
 
   services.openssh.enable = true;

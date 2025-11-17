@@ -26,12 +26,16 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, niri-flake, ... }@inputs: {
-    nixosConfigurations.pc_dank = nixpkgs.lib.nixosSystem {  # ← Cambia "tu-hostname" por el nombre de tu PC
+  outputs = { self, nixpkgs, home-manager, niri-flake, ... }@inputs:
+  let
+    overlays = [
+      niri-flake.overlays.niri
+      ];
+  in {
+    nixosConfigurations.pc_niri = nixpkgs.lib.nixosSystem {  # ← Cambia "tu-hostname" por el nombre de tu PC
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
-
         ./config/configuration.nix
         ./config/hardware-configuration.nix
 

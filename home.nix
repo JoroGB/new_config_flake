@@ -1,23 +1,25 @@
 { config, pkgs, inputs, ... }:
-
 {
-  home.username = "joronix";
-  home.homeDirectory = "/home/joronix";
-  home.stateVersion = "24.11";
+  imports =[
+    inputs.niri-flake.homeModules.niri
+    ./desktop/niri_custom.nix
 
-  imports = [
+    inputs.noctalia.homeModules.default
+    ./desktop/noctalia.nix
   ];
 
-  homeConfigurations.joronix = home-manager.lib.homeManagerConfigurations {
-    pkgs=nixpkgs.legacyPackages.x86_64-linux;
-    modules = [
-      {
-        nixpkgs.overlays = [ niri-flake.overlays.niri ];
-      }
-      niri-flake.homeModules.niri
-      ./home.nix
-    ]
 
-  }
+    wayland.windowManager.sway = {
+      enable = true;
+      systemdIntegration = true;
+    };
+  home.username = "joronix";
+  home.homeDirectory = "/home/joronix";
+  home.stateVersion = "25.05";
+
+  home.packages = with pkgs; [
+    slurp
+  ];
+
 
 }
