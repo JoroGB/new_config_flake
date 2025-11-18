@@ -22,6 +22,10 @@
             };
         };
         "HDMI-A-1"={
+          position = {
+            x = 0;
+            y=-400;
+          };
           transform.rotation=270;
           mode = {
           width = 1920;
@@ -40,6 +44,7 @@
 
       # Input
       input = {
+        focus-follows-mouse.enable = true;
         keyboard.xkb = {
           layout = "us,es";
           options = "grp:alt_shift_toggle";
@@ -79,6 +84,7 @@
 
         "Mod+T".action = spawn "alacritty";
         "Mod+D".action = spawn "fuzzel";
+        "Mod+Tab".action = open-overview;
 
         #Mostrar hotkeys
         "Mod+Shift+Slash".action = show-hotkey-overlay;
@@ -125,6 +131,10 @@
         "Mod+3".action = focus-workspace 3;
         "Mod+4".action = focus-workspace 4;
 
+        # "Mod+Shift+1".action = move-column-to-workspace 1;
+        # "Mod+Shift+2".action = move-column-to-workspace 2;
+        # "Mod+Shift+3".action = move-column-to-workspace 3;
+        # "Mod+Shift+4".action = move-column-to-workspace 4;
         #Monitores
         "Mod+Alt+H".action = focus-monitor-left;
         "Mod+Alt+L".action = focus-monitor-right;
