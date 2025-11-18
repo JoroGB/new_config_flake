@@ -7,9 +7,7 @@
   # nixpkgs.overlays = [
   #   (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
   # ];
-    nixpkgs.overlays = [
-    inputs.fenix.overlays.default
-  ];
+
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -24,9 +22,37 @@
     powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
+  boot.kernelParams = [
+     "nvidia-drm.modeset=1"
+     "nvidia-drm.fbdev=1"
+   ];
+   environment.etc."nvidia/nvidia-application-profiles-rc.d/niri-vram-fix.conf".text = ''
+     {
+       "profiles": [
+         {
+           "name": "niri",
+           "settings": [
+             {
+               "key": "__GL_HEAP_ALLOC_POLICY",
+               "value": 1
+             }
+           ]
+         }
+       ],
+       "rules": [
+         {
+           "pattern": {
+             "feature": "procname",
+             "matches": "niri"
+           },
+           "profile": "niri"
+         }
+       ]
+     }
+   '';
   # Configuración de Niri
   programs.niri = {
     enable = true;
@@ -84,6 +110,10 @@
   };
   environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
   networking.hostName = "nixos";
+  environment.variables = {
+    XCURSOR_THEME = "Bibata-Modern-Classic";  # o el tema que instales
+    XCURSOR_SIZE = "24";
+  };
 
   time.timeZone = "America/Costa_Rica";
   time.hardwareClockInLocalTime = true;
@@ -118,6 +148,7 @@
   };
 
   programs.firefox.enable = true;
+  programs.xwayland.enable = true;
 
   # Terminal para Wayland en lugar de gnome-terminal
   # Kitty ya está en environment.systemPackages y funciona con Wayland
@@ -134,13 +165,13 @@
   # nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    (fenix.complete.withComponents [
-      "cargo"
-      "clippy"
-      "rust-src"
-      "rustc"
-      "rustfmt"
-    ])
+    # (fenix.complete.withComponents [
+      # "cargo"
+      # "clippy"
+      # "rust-src"
+      # "rustc"
+      # "rustfmt"
+    # ])
     rust-analyzer-nightly
     gcc
     vim
@@ -167,13 +198,15 @@
     postgresql_17_jit
     jetbrains-toolbox
     zed-editor
+    playerctl
 
     # Herramientas útiles para Wayland/Niri
     wayland-utils
-    xwayland  # Para apps X11 en Wayland
+    xwayland-satellite  # Para apps X11 en Wayland
     alacritty
     fuzzel
     mako
+    bibata-cursors
   ];
 
   services.openssh.enable = true;

@@ -6,6 +6,11 @@
     package = pkgs.niri-unstable;
 
     settings = {
+      environment  ={
+        DISPLAY = ":0";
+        XCURSOR_THEME = "Bibata-Modern-Classic";
+        XCURSOR_SIZE = "24";
+      };
 
       outputs ={
         "DP-3"={
@@ -27,6 +32,7 @@
       # Lanzar Noctalia al inicio:
       spawn-at-startup = [
         { command = [ "noctalia-shell" ]; }
+        { command = [ "xwayland-satellite" ":0"]; }
       ];
 
       # Configuración básica
@@ -61,7 +67,16 @@
         #Multimedia
         "XF86AudioRaiseVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05+";
         "XF86AudioLowerVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05-";
+        "XF86AudioMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle" ;
+        "XF86AudioMicMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle" ;
+
+        "XF86AudioPlay".action = spawn-sh "playerctl play-pause";
+        "XF86AudioNext".action = spawn-sh "playerctl next";
+        "XF86AudioPrev".action = spawn-sh "playerctl previous";
+        "XF86AudioStop".action = spawn-sh "playerctl stop";
+
         # Aplicaciones
+
         "Mod+T".action = spawn "alacritty";
         "Mod+D".action = spawn "fuzzel";
 

@@ -6,13 +6,16 @@
 
     inputs.noctalia.homeModules.default
     ./desktop/noctalia.nix
+
+
+    ./programs/fenix.nix
   ];
 
 
-    wayland.windowManager.sway = {
-      enable = true;
-      systemdIntegration = true;
-    };
+    # wayland.windowManager.sway = {
+    #   enable = true;
+    #   systemdIntegration = true;
+    # };
   home.username = "joronix";
   home.homeDirectory = "/home/joronix";
   home.stateVersion = "25.05";

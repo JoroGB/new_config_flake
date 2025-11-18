@@ -26,13 +26,15 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, niri-flake, ... }@inputs:{
+  outputs = { self, nixpkgs, home-manager, niri-flake, fenix, ... }@inputs:{
     nixosConfigurations.pc_niri = nixpkgs.lib.nixosSystem {  # ← Cambia "tu-hostname" por el nombre de tu PC
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
+
         {
-          nixpkgs.overlays = [ niri-flake.overlays.niri ];
+          nixpkgs.overlays = [ niri-flake.overlays.niri
+            fenix.overlays.default];
         }
         ./config/configuration.nix
         ./config/hardware-configuration.nix
