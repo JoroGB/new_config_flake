@@ -33,6 +33,13 @@
           };
         };
       };
+
+      layout = {
+        gaps = 6;
+       focus-ring = {
+         width = 1.5;
+        } ;
+      };
       # Lanzar Noctalia al inicio:
       spawn-at-startup = [
         { command = [ "noctalia-shell" ]; }
@@ -81,7 +88,8 @@
         "XF86AudioStop".action = spawn-sh "playerctl stop";
 
         # Aplicaciones
-
+        "Ctrl+Shift+T".action = spawn-sh "warp-terminal";
+        "Ctrl+Shift+Tab".action = spawn-sh "kitty";
         "Mod+T".action = spawn "alacritty";
         "Mod+D".action = spawn "fuzzel";
         "Mod+Tab".action = open-overview;

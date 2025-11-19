@@ -126,7 +126,7 @@
         wallpaper = {
           enabled = true;
           overviewEnabled = false;
-          directory = "";
+          directory = "/home/joronix/new_configuration_flake/desktop/wallpaper/";
           enableMultiMonitorDirectories = false;
           recursiveSearch = false;
           setWallpaperOnAllMonitors = true;
@@ -311,7 +311,7 @@
         };
         colorSchemes = {
           useWallpaperColors = false;
-          predefinedScheme = "Noctalia (default)";
+          predefinedScheme = "Tokyo Night";
           darkMode = true;
           schedulingMode = "off";
           manualSunrise = "06:30";
@@ -323,12 +323,12 @@
           gtk = false;
           qt = false;
           kcolorscheme = false;
-          alacritty = false;
-          kitty = false;
+          alacritty = true;
+          kitty = true;
           ghostty = false;
           foot = false;
           wezterm = false;
-          fuzzel = false;
+          fuzzel = true;
           discord = false;
           pywalfox = false;
           vicinae = false;
