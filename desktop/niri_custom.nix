@@ -35,6 +35,7 @@
       };
 
       layout = {
+        background-color = "transparent";
         gaps = 6;
        focus-ring = {
          width = 1.5;
@@ -221,6 +222,20 @@
 
         #  Finer height adjustments when in column with other windows.
       };
+      layer-rules = [
+        {
+          matches = [
+            {
+              namespace = "^noctalia-wallpaper*";
+            }
+          ];
+          place-within-backdrop = true;
+        }
+      ];
+      overview = {
+        workspace-shadow.enable = false;
+      };
+
 
       # Ventanas flotantes
       window-rules = [
@@ -234,6 +249,12 @@
           clip-to-geometry = true;
         }
       ];
+
+      debug = {
+      honor-xdg-activation-with-invalid-serial = {};
+    };
+
+      # debug.honor-xdg-activation-with-invalid-serial = true;
     };
   };
 }
