@@ -88,9 +88,15 @@
         "XF86AudioPrev".action = spawn-sh "playerctl previous";
         "XF86AudioStop".action = spawn-sh "playerctl stop";
 
-        # Aplicaciones
-        "Ctrl+Shift+T".action = spawn-sh "warp-terminal";
-        "Ctrl+Shift+Tab".action = spawn-sh "kitty";
+        # "Print".action = screenshot;
+        "Mod+V".action  = spawn-sh "noctalia-shell ipc call launcher clipboard";
+        "Print".action.spawn = [
+          "sh" "-c"
+          "grim -g \"$(slurp)\" - | wl-copy && notify-send 'Screenshot copiado'"
+        ];
+          # Aplicaciones
+        "Mod+Shift+T".action = spawn-sh "warp-terminal";
+        "Mod+Shift+Tab".action = spawn-sh "kitty";
         "Mod+T".action = spawn "alacritty";
         "Mod+D".action = spawn "fuzzel";
         "Mod+Tab".action = open-overview;
@@ -195,7 +201,7 @@
         "Mod+Shift+Equal".action.set-window-height = "+10%";
 
       #Move the focused window between the floating and the tiling layout.
-      "Mod+V".action       = toggle-window-floating;
+      "Mod+Alt+V".action       = toggle-window-floating;
       "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
 
       # Toggle tabbed column display mode.

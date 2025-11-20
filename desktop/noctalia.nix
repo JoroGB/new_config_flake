@@ -153,7 +153,7 @@
         };
         appLauncher = {
           enableClipboardHistory = true;
-          position = "top_left";
+          position = "bottom_left";
           pinnedExecs = [ ];
           useApp2Unit = false;
           sortByMostUsed = true;

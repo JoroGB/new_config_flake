@@ -165,6 +165,7 @@
   # nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    (callPackage ./pear_desktop.nix{})
     # (fenix.complete.withComponents [
       # "cargo"
       # "clippy"
