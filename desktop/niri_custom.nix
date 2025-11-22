@@ -18,7 +18,7 @@
           mode = {
             width = 2560;
             height = 1080;
-            refresh = 99.949;
+            refresh = 99.943;
             };
         };
         "HDMI-A-1"={
